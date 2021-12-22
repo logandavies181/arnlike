@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	arnDelimiter = ":"
-	arnSectionsExpected  = 6
-	arnPrefix    = "arn:"
+	arnDelimiter        = ":"
+	arnSectionsExpected = 6
+	arnPrefix           = "arn:"
 
 	// zero-indexed
 	sectionPartition = 1
@@ -41,7 +41,6 @@ func ArnLike(arn, pattern string) (bool, error) {
 	// Tidy glob special characters. Escape the ones not used in ArnLike.
 	// Replace multiple ** with a single one
 	tidyPatternSections(patternSections)
-	fmt.Println(patternSections)
 
 	for index := range arnSections {
 		patternGlob, err := glob.Compile(patternSections[index])
