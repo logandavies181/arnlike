@@ -24,7 +24,7 @@ const (
 	invalidSections = "not enough sections"
 )
 
-// ArnLike takes an ARN returns true if it is matched by the pattern.
+// ArnLike takes an ARN and returns true if it is matched by the pattern.
 // Each component of the ARN is matched individually as per
 // https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition_operators.html#Conditions_ARN
 func ArnLike(arn, pattern string) (bool, error) {

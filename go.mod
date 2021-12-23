@@ -1,4 +1,4 @@
-module arnlike
+module github.com/logandavies181/arnlike
 
 go 1.17
 
