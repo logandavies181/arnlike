@@ -105,27 +105,27 @@ func TestArnLikeInvalidArns(t *testing.T) {
 func TestQuoteMeta(t *testing.T) {
 	inputs := []quoteMetaInput{
 		{
-			input: `**`,
+			input:    `**`,
 			expected: `.*.*`,
 		},
 		{
-			input: `??`,
+			input:    `??`,
 			expected: `.?.?`,
 		},
 		{
-			input: `abdcEFG`,
+			input:    `abdcEFG`,
 			expected: `abdcEFG`,
 		},
 		{
-			input: `abd.EFG`,
+			input:    `abd.EFG`,
 			expected: `abd\.EFG`,
 		},
 		{
-			input: `\.+()|[]{}^$`,
+			input:    `\.+()|[]{}^$`,
 			expected: `\\\.\+\(\)\|\[\]\{\}\^\$`,
 		},
 		{
-			input: `\.+()|[]{}^$*?`,
+			input:    `\.+()|[]{}^$*?`,
 			expected: `\\\.\+\(\)\|\[\]\{\}\^\$.*.?`,
 		},
 	}

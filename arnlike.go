@@ -2,8 +2,8 @@ package arnlike
 
 import (
 	"fmt"
-	"strings"
 	"regexp"
+	"strings"
 	"unicode/utf8"
 )
 
