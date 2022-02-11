@@ -6,12 +6,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type input struct {
+type arnLikeInput struct {
 	arn, pattern string
 }
 
+type quoteMetaInput struct {
+	input, expected string
+}
+
 func TestArnLikePostiveMatches(t *testing.T) {
-	inputs := []input{
+	inputs := []arnLikeInput{
 		{
 			arn:     `arn:aws:iam::000000000000:role/some-role`,
 			pattern: `arn:aws:iam::000000000000:role/some-role`,
@@ -59,7 +63,7 @@ func TestArnLikePostiveMatches(t *testing.T) {
 }
 
 func TestArnLikeNetagiveMatches(t *testing.T) {
-	inputs := []input{
+	inputs := []arnLikeInput{
 		{
 			arn:     `arn:aws:iam::111111111111:role/some-role`,
 			pattern: `arn:aws:iam::000000000000:role/some-role`,
@@ -96,4 +100,38 @@ func TestArnLikeInvalidArns(t *testing.T) {
 		"Expected false result on error for input arn: %s, pattern: %s", invalidSectionsArn, validArn)
 
 	assert.Equal(t, "Could not parse input arn: not enough sections", err.Error())
+}
+
+func TestQuoteMeta(t *testing.T) {
+	inputs := []quoteMetaInput{
+		{
+			input:    `**`,
+			expected: `.*.*`,
+		},
+		{
+			input:    `??`,
+			expected: `.?.?`,
+		},
+		{
+			input:    `abdcEFG`,
+			expected: `abdcEFG`,
+		},
+		{
+			input:    `abd.EFG`,
+			expected: `abd\.EFG`,
+		},
+		{
+			input:    `\.+()|[]{}^$`,
+			expected: `\\\.\+\(\)\|\[\]\{\}\^\$`,
+		},
+		{
+			input:    `\.+()|[]{}^$*?`,
+			expected: `\\\.\+\(\)\|\[\]\{\}\^\$.*.?`,
+		},
+	}
+
+	for _, v := range inputs {
+		output := quoteMeta(v.input)
+		assert.Equal(t, v.expected, output)
+	}
 }
